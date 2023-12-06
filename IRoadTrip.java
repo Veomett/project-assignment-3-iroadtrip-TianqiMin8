@@ -14,11 +14,12 @@ public class IRoadTrip {
     private Map<String, String> tsvInfo;
     private Map<String,String> fixedMap = new HashMap<>();
     private Map<String,Map<String,Integer>> finalInfo = new HashMap<>();
+    
     public IRoadTrip(String[] args) {
         String txtFile;
         String csvFile;
         String tsvFile;
-
+        fixedM();
         try {
             txtFile = args[0]; //txt file
             csvFile = args[1]; //csv file
@@ -48,14 +49,12 @@ public class IRoadTrip {
                         if(fixedMap.containsKey(key2)){
                             fixedkey2 = fixedMap.get(key2);
                         }
-    
                         //find country id
                         if(tsvInfo.containsKey(key2)){
                             String tempCountryId2 = tsvInfo.get(key2);
                             if(csvInfo.containsKey(tempCountryId1)&&(csvInfo.get(tempCountryId1)).containsKey(tempCountryId2)){
-                                //find correct distance and change distance in txtInfo
+                                //find correct distance and store distance in finalInfo
                                 int correctDistance = (csvInfo.get(tempCountryId1)).get(tempCountryId2);
-                                //(txtInfo.get(key1)).put(key2,correctDistance);
                                 finalInfo.get(fixedkey1).put(fixedkey2,correctDistance);
                             }
                         }
@@ -72,6 +71,13 @@ public class IRoadTrip {
     //get distance between two countries that shared borders
     public int getDistance(String country1, String country2) {
         int distance = -1;
+        //check if it has another name
+        if(fixedMap.containsKey(country1)){
+            country1 = fixedMap.get(country1);
+        }
+        if(fixedMap.containsKey(country2)){
+            country2 = fixedMap.get(country2);
+        }
         if(finalInfo.containsKey(country1)&&finalInfo.get(country1).containsKey(country2)){
             distance = finalInfo.get(country1).get(country2);
         }         
@@ -80,7 +86,7 @@ public class IRoadTrip {
 
     public List<String> findPath(String country1, String country2) {
         String temp = "";
-        //fixedM();
+        fixedM();
         boolean flag = true;
         List<String> result = new ArrayList<>();
         Map<String, String> path = Dijkstra(country1, country2);
@@ -96,27 +102,22 @@ public class IRoadTrip {
         //use an array to store the reversed order road
         List<String> reversedPath = new ArrayList<>();
         while(!tempC.equals(country1)){
-            reversedPath.add(tempC);
+            //reversedPath.add(tempC);
             if(path.get(tempC) == null){
-                flag = false;break;
+                flag = false; break;
             }
             reversedPath.add(path.get(tempC));
-            temp += path.get(tempC)+" "+tempC+"\n";
+            int tempDistance = getDistance(path.get(tempC),tempC);
+            temp += "* "+path.get(tempC)+" --> "+tempC+" ("+tempDistance+" km.)\n";
             tempC = path.get(tempC);
         }
-        //int tempDistance = txtInfo.get(tempC).get(path.get(tempC));
+        
         //temp = "* "+path.get(tempC)+" --> "+tempC+"("+tempDistance+" km.)";
-        System.out.println(temp);
         String tempResult[] = temp.split("\n"); 
-        for(int i=tempResult.length; i>=0; i--){
-            //String a = txtInfo.get(tempC);
-            // if(fixedMap.containsKey(country1)){
-            //     country1 = fixedMap.get(country1);
-            // }
-            // int tempDistance = finalInfo.get(tempC).get(path.get(tempC));
-            // result.add("* "+path.get(tempC)+" --> "+tempC+"("+tempDistance+" km.)");
+        for(int i=tempResult.length-1; i>=0; i--){
+            result.add(tempResult[i]);
+            //System.out.println(tempResult[i]);
         }
-        System.out.println(result);
         return result;
     }
 
@@ -175,7 +176,7 @@ public class IRoadTrip {
             //mark it as finalized
             finalizedCountries.add(countryTemp.country);
             
-            System.out.println("a: "+countryTempNam+" "+finalInfo.get(countryTempNam).keySet());
+            //System.out.println("a: "+countryTempNam+" "+finalInfo.get(countryTempNam).keySet());
 
             //check all of its neighbors
             for(String nearC : finalInfo.get(countryTempNam).keySet()){    
@@ -196,11 +197,11 @@ public class IRoadTrip {
             }
 
         }
-        System.out.println("---------------------------");
-        for(String aa : neigh.keySet()){
-            System.out.println(aa + " " + neigh.get(aa));
-        }
-        System.out.println("---------------------------");
+        // System.out.println("---------------------------");
+        // for(String aa : neigh.keySet()){
+        //     System.out.println(aa + " " + neigh.get(aa));
+        // }
+        // System.out.println("---------------------------");
         return neigh;
     }
 
@@ -399,10 +400,10 @@ public class IRoadTrip {
 
     public void acceptUserInput() {
         Scanner s = new Scanner(System.in);
-        System.out.println("IRoadTrip - skeleton");
+        //System.out.println("IRoadTrip - skeleton");
         //Dijkstra("Russia", "Sorth Korea");
         //System.out.println(getDistance("France","Spain" ));
-        findPath("South Korea", "Russia");
+        //findPath("South Korea", "Russia");
         int flag = 0;
         int flag2 = 1;
         String country1 = "",country2 = "";
@@ -438,6 +439,9 @@ public class IRoadTrip {
                     //find shortest path
                     System.out.println("Route from "+country1+" to "+country2+":");
                     List<String> a = findPath(country1, country2);
+                    for(String tempS : a){
+                        System.out.println(tempS);
+                    }
                 }
             }
             //System.out.println("Route from "+country1+" to "+country2+":");
