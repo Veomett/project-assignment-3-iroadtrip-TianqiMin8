@@ -106,7 +106,7 @@ public class IRoadTrip {
         }
         //int tempDistance = txtInfo.get(tempC).get(path.get(tempC));
         //temp = "* "+path.get(tempC)+" --> "+tempC+"("+tempDistance+" km.)";
-        //System.out.println(temp);
+        System.out.println(temp);
         String tempResult[] = temp.split("\n"); 
         for(int i=tempResult.length; i>=0; i--){
             //String a = txtInfo.get(tempC);
@@ -164,7 +164,7 @@ public class IRoadTrip {
             }
             
             //if has no neighbors try to find another name of the country
-            if(txtInfo.get(countryTemp.country) == null){
+            if(finalInfo.get(countryTemp.country) == null){
                 if(fixedMap.containsKey(countryTemp.country)){
                     countryTemp = new NodeDistance(fixedMap.get(countryTemp.country), countryTemp.distance);
                 }
@@ -175,7 +175,7 @@ public class IRoadTrip {
             //mark it as finalized
             finalizedCountries.add(countryTemp.country);
             
-            //System.out.println("a: "+countryTempNam+" "+txtInfo.get(countryTempNam).keySet());
+            System.out.println("a: "+countryTempNam+" "+finalInfo.get(countryTempNam).keySet());
 
             //check all of its neighbors
             for(String nearC : finalInfo.get(countryTempNam).keySet()){    
@@ -380,7 +380,7 @@ public class IRoadTrip {
         fixedMap.put("Lithuania (Kaliningrad Oblast)", "Lithuania");
         fixedMap.put("Poland (Kaliningrad Oblast)", "Poland");
         fixedMap.put("Russia (Kaliningrad Oblast)", "Poland");
-        fixedMap.put("Korea, South","South Korea");
+        fixedMap.put("South Korea","Korea, South");
         fixedMap.put("Sri Lanka (Ceylon)","Sri Lanka");
         fixedMap.put("Surinam","Suriname");
         fixedMap.put("Tanzania/Tanganyika","Tanzania");
@@ -429,7 +429,7 @@ public class IRoadTrip {
                 if(fixedMap.containsKey(lineValue)){
                     lineValue = fixedMap.get(lineValue);
                 }
-                if(finalInfo.containsKey(lineValue)){
+                if(!finalInfo.containsKey(lineValue)){
                     System.out.println("Invalid country name. Please enter a valid country name.");
                 }
                 else{
