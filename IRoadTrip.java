@@ -3,7 +3,6 @@ import java.io.*;
 
 //added
 import java.util.*;
-import java.util.List;
 
 public class IRoadTrip {
 
@@ -49,17 +48,19 @@ public class IRoadTrip {
                         //find country id
                         if(tsvInfo.containsKey(key2)){
                             String tempCountryId2 = tsvInfo.get(key2);
+                            
                             if(csvInfo.containsKey(tempCountryId1)&&(csvInfo.get(tempCountryId1)).containsKey(tempCountryId2)){
                                 //find correct distance and store distance in finalInfo
-                                int correctDistance = (csvInfo.get(tempCountryId1)).get(tempCountryId2);
-                                finalInfo.get(fixedkey1).put(fixedkey2,correctDistance);
+                                if((csvInfo.get(tempCountryId1)).containsKey(tempCountryId2)){
+                                    int correctDistance = (csvInfo.get(tempCountryId1)).get(tempCountryId2);
+                                    finalInfo.get(fixedkey1).put(fixedkey2,correctDistance);
+                                }
                             }
 
                         }
                     }
                 }
-            }
-                    
+            }     
         } 
         catch (Exception e1) {System.err.println("Error1: " + e1.getMessage());System.exit(1);}
 
@@ -157,7 +158,7 @@ public class IRoadTrip {
             while(!distanceMinHeap.isEmpty()&&finalizedCountries.contains(countryTemp.country)){
                 countryTemp = distanceMinHeap.remove();
             }
-            
+
             //if has no neighbors try to find another name of the country
             if(finalInfo.get(countryTemp.country) == null){
                 if(fixedMap.containsKey(countryTemp.country)){
@@ -169,7 +170,7 @@ public class IRoadTrip {
             String countryTempNam = countryTemp.country;
             //mark it as finalized
             finalizedCountries.add(countryTemp.country);
-            
+           
             //check all of its neighbors
             for(String nearC : finalInfo.get(countryTempNam).keySet()){    
                 int nearbyDistance = (finalInfo.get(countryTemp.country)).get(nearC);
@@ -334,6 +335,7 @@ public class IRoadTrip {
             country_code.put("Morocco (Ceuta)","MOR");
             country_code.put("Eswatini", "SWA");
             country_code.put("Czechia", "CZR");
+            country_code.put("Denmark (Greenland)", "DEN");
 
         return country_code;
     }
@@ -374,6 +376,7 @@ public class IRoadTrip {
         fixedMap.put("Macedonia", "North Macedonia");
         fixedMap.put("Morocco (Ceuta)", "Morocco");
         fixedMap.put("Spain (Ceuta)", "Spain");
+        fixedMap.put("Denmark (Greenland)", "Denmark");
         return fixedMap;
     }
 
