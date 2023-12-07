@@ -61,7 +61,7 @@ public class IRoadTrip {
             }
                     
         } 
-        catch (Exception e1) {System.err.println("Error1: " + e1.getMessage());}
+        catch (Exception e1) {System.err.println("Error1: " + e1.getMessage());System.exit(1);}
 
     }
 
@@ -231,7 +231,7 @@ public class IRoadTrip {
                 }
                 s.close();
             }
-            catch(Exception e2){System.err.println("Error2: " + e2.getMessage());}
+            catch(Exception e2){System.err.println("Error2: " + e2.getMessage());System.exit(1);}
             return linesInfo;
     }
     
@@ -263,7 +263,7 @@ public class IRoadTrip {
                 }
                 s.close();
             }
-            catch(Exception e3){System.err.println("Error3: " + e3.getMessage());}
+            catch(Exception e3){System.err.println("Error3: " + e3.getMessage());System.exit(1);}
             return linesInfo;
     }
 
@@ -287,7 +287,7 @@ public class IRoadTrip {
                 }
                 s.close();
             }
-            catch(Exception e4){System.err.println("Error4: " + e4.getMessage());}
+            catch(Exception e4){System.err.println("Error4: " + e4.getMessage());System.exit(1);}
             country_code.put("Bahamas, The","BHM");
             country_code.put("Belarus","BLR");
             country_code.put("Bosnia and Herzegovina","BOS");
