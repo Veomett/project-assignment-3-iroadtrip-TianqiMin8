@@ -9,3 +9,5 @@ I added three function to read 3 files and deal with the problems.
 
 b) Data structure choices
 I used hashmaps and hashsets to store the information from the file.
+
+projecthelps.xls includes all countries I found with other names.
