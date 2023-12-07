@@ -1,6 +1,4 @@
 // Source code is decompiled from a .class file using FernFlower decompiler.
-import static java.lang.Integer.MAX_VALUE;
-
 import java.io.*;
 
 //added
@@ -89,7 +87,6 @@ public class IRoadTrip {
         boolean flag = true;
         List<String> result = new ArrayList<>();
         Map<String, String> path = Dijkstra(country1, country2);
-        //System.out.println(path.keySet());
         
         if(fixedMap.containsKey(country1)){
             country1 = fixedMap.get(country1);
@@ -114,7 +111,6 @@ public class IRoadTrip {
         String tempResult[] = temp.split("\n"); 
         for(int i=tempResult.length-1; i>=0; i--){
             result.add(tempResult[i]);
-            //System.out.println(tempResult[i]);
         }
         if(!flag){return new ArrayList<>();}
         return result;
@@ -148,25 +144,14 @@ public class IRoadTrip {
         neigh.put(startC, "");
 
         HashSet<String> finalizedCountries = new HashSet<>();
-        //finalizedCountries.add(startC);
-        
+       
         //store the current smallest distance from start country to current
         Map<String, Integer> smallestDistance = new HashMap<>();
         smallestDistance.put(startC, 0);
 
-        // System.out.println("Spain: "+finalInfo.get("Spain"));
-        // System.out.println("Morocco: "+finalInfo.get("Morocco"));
-
         String countryNow = startC;
         //until queue is empty or find the end country
         while(!distanceMinHeap.isEmpty()&&!endC.equals(countryNow)){
-
-            // //testing
-            //////////////////////////////////may be something wrong with countryNow?
-            
-            //System.out.println("meanHeap: "+distanceMinHeap.peek().country+" "+distanceMinHeap.peek().distance);
-
-
             //pop the first element, check if it is already in the finalized list
             NodeDistance countryTemp = distanceMinHeap.remove();
             while(!distanceMinHeap.isEmpty()&&finalizedCountries.contains(countryTemp.country)){
@@ -185,8 +170,6 @@ public class IRoadTrip {
             //mark it as finalized
             finalizedCountries.add(countryTemp.country);
             
-            //System.out.println("a: "+countryTempNam+" "+finalInfo.get(countryTempNam).keySet());
-
             //check all of its neighbors
             for(String nearC : finalInfo.get(countryTempNam).keySet()){    
                 int nearbyDistance = (finalInfo.get(countryTemp.country)).get(nearC);
@@ -198,20 +181,12 @@ public class IRoadTrip {
                     neigh.put(nearC,countryTempNam);
                     smallestDistance.put(nearC, nearbyDistance+countryTempDis);
                     distanceMinHeap.add(new NodeDistance(nearC, nearbyDistance+countryTempDis));
-                    //System.out.println(nearC+"+"+(nearbyDistance+countryTempDis));
                 }
                 if(fixedMap.containsKey(nearC)){nearC = fixedMap.get(nearC);}
                 
-                countryNow = nearC;
-                //if(endC.equals(countryNow)){break;}                
+                countryNow = nearC;               
             }
-
         }
-        // System.out.println("---------------------------");
-        // for(String aa : neigh.keySet()){
-        //     System.out.println(aa + " " + neigh.get(aa));
-        // }
-        // System.out.println("---------------------------");
         return neigh;
     }
 
@@ -227,7 +202,6 @@ public class IRoadTrip {
                     String[] value = line.split(" = ");
                     Map<String, Integer> nearbyCountryInfo = new HashMap<>(); 
 
-                    //System.out.print(value[0]);
                     //if have near countries
                     if(value.length > 1){
                         //delete the last three char: " km"
@@ -245,13 +219,10 @@ public class IRoadTrip {
                                     countryName += tempND[j] + " ";
                                 }
                                 countryName += tempND[j];
-
                             }
                             nearbyCountryInfo.put(countryName, Integer.MAX_VALUE);
-                            //System.out.print(" " + countryName + " " + nearbyCountryInfo.get(countryName) + ", ");
                             i++;               
                         }
-                        //System.out.println();
                     }
 
                     //store all information in this line to a hashmap
@@ -307,8 +278,6 @@ public class IRoadTrip {
                     String line = s.nextLine();
                     //try to separate them and store them in a map
                     String[] value = line.split("\t");
-
-                    //int statenum = Integer.parseInt(value[0]);
                     String stateid = value[1];
                     String countryname = value[2];
                     String date = value[4];
@@ -415,7 +384,6 @@ public class IRoadTrip {
         String country1 = "",country2 = "";
         String lineValue = "";
         while(flag2==1 || !lineValue.equals("EXIT")) {
-            //System.out.println(s.nextLine());
             while(flag == 0){
                 System.out.print("Enter the name of the first country (type EXIT to quit): ");
                 lineValue = s.nextLine();
@@ -450,7 +418,6 @@ public class IRoadTrip {
                     }
                 }
             }
-            //System.out.println("Route from "+country1+" to "+country2+":");
             flag2=0;
         }
 
@@ -460,7 +427,6 @@ public class IRoadTrip {
     
     public static void main(String[] args) {
         IRoadTrip a3 = new IRoadTrip(args);
-
         a3.acceptUserInput();
     }
 }
