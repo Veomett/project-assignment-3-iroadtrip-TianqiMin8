@@ -57,6 +57,7 @@ public class IRoadTrip {
                                 int correctDistance = (csvInfo.get(tempCountryId1)).get(tempCountryId2);
                                 finalInfo.get(fixedkey1).put(fixedkey2,correctDistance);
                             }
+
                         }
                     }
                 }
@@ -155,9 +156,19 @@ public class IRoadTrip {
         Map<String, Integer> smallestDistance = new HashMap<>();
         smallestDistance.put(startC, 0);
 
+        // System.out.println("Spain: "+finalInfo.get("Spain"));
+        // System.out.println("Morocco: "+finalInfo.get("Morocco"));
+
         String countryNow = startC;
         //until queue is empty or find the end country
         while(!distanceMinHeap.isEmpty()&&!endC.equals(countryNow)){
+
+            // //testing
+            
+            
+            // System.out.println("meanHeap: "+distanceMinHeap.peek().country+" "+distanceMinHeap.peek().distance);
+
+
             //pop the first element, check if it is already in the finalized list
             NodeDistance countryTemp = distanceMinHeap.remove();
             while(!distanceMinHeap.isEmpty()&&finalizedCountries.contains(countryTemp.country)){
@@ -351,6 +362,7 @@ public class IRoadTrip {
             country_code.put("Vietnam","DRV");
             country_code.put("Yemen","YEM");
             country_code.put("Zimbabwe","ZIM");
+            country_code.put("Spain (Ceuta)", "SPN");
             country_code.put("Morocco (Ceuta)","MOR");
             country_code.put("Eswatini", "SWA");
             country_code.put("Czechia", "CZR");
@@ -391,7 +403,6 @@ public class IRoadTrip {
         fixedMap.put("United Arab Emirates","UAE");
         fixedMap.put("UK","United Kingdom");
         fixedMap.put("US","United States");
-
         fixedMap.put("Macedonia", "North Macedonia");
         fixedMap.put("Morocco (Ceuta)", "Morocco");
         fixedMap.put("Spain (Ceuta)", "Spain");
@@ -400,10 +411,6 @@ public class IRoadTrip {
 
     public void acceptUserInput() {
         Scanner s = new Scanner(System.in);
-        //System.out.println("IRoadTrip - skeleton");
-        //Dijkstra("Russia", "Sorth Korea");
-        //System.out.println(getDistance("France","Spain" ));
-        //findPath("South Korea", "Russia");
         int flag = 0;
         int flag2 = 1;
         String country1 = "",country2 = "";
