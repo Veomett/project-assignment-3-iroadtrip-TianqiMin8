@@ -37,7 +37,6 @@ public class IRoadTrip {
                     fixedkey1 = fixedMap.get(key1);
                 }
                 finalInfo.put(fixedkey1, new HashMap<>());
-
                 //find country id
                 if(tsvInfo.containsKey(key1)){
                     String tempCountryId1 = tsvInfo.get(key1);
@@ -61,7 +60,6 @@ public class IRoadTrip {
                         }
                     }
                 }
-                
             }
                     
         } 
@@ -112,18 +110,18 @@ public class IRoadTrip {
             temp += "* "+path.get(tempC)+" --> "+tempC+" ("+tempDistance+" km.)\n";
             tempC = path.get(tempC);
         }
-        
-        //temp = "* "+path.get(tempC)+" --> "+tempC+"("+tempDistance+" km.)";
+    
         String tempResult[] = temp.split("\n"); 
         for(int i=tempResult.length-1; i>=0; i--){
             result.add(tempResult[i]);
             //System.out.println(tempResult[i]);
         }
+        if(!flag){return new ArrayList<>();}
         return result;
     }
 
     //newly added
-    //use Dijkstra to find the samllest path
+    //use Dijkstra to find the smallest path
     private class NodeDistance implements Comparable<NodeDistance>{
         String country;
         int distance;
@@ -164,9 +162,9 @@ public class IRoadTrip {
         while(!distanceMinHeap.isEmpty()&&!endC.equals(countryNow)){
 
             // //testing
+            //////////////////////////////////may be something wrong with countryNow?
             
-            
-            // System.out.println("meanHeap: "+distanceMinHeap.peek().country+" "+distanceMinHeap.peek().distance);
+            //System.out.println("meanHeap: "+distanceMinHeap.peek().country+" "+distanceMinHeap.peek().distance);
 
 
             //pop the first element, check if it is already in the finalized list
@@ -200,11 +198,12 @@ public class IRoadTrip {
                     neigh.put(nearC,countryTempNam);
                     smallestDistance.put(nearC, nearbyDistance+countryTempDis);
                     distanceMinHeap.add(new NodeDistance(nearC, nearbyDistance+countryTempDis));
+                    //System.out.println(nearC+"+"+(nearbyDistance+countryTempDis));
                 }
                 if(fixedMap.containsKey(nearC)){nearC = fixedMap.get(nearC);}
-                //System.out.println(nearC+"+"+neigh.get(nearC));
+                
                 countryNow = nearC;
-                if(endC.equals(countryNow)){break;}                
+                //if(endC.equals(countryNow)){break;}                
             }
 
         }
@@ -462,7 +461,6 @@ public class IRoadTrip {
     public static void main(String[] args) {
         IRoadTrip a3 = new IRoadTrip(args);
 
-        
         a3.acceptUserInput();
     }
 }
